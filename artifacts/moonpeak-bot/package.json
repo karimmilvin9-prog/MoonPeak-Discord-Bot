@@ -1,0 +1,19 @@
+{
+  "name": "@workspace/moonpeak-bot",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "discord.js": "^14.22.1",
+    "openai": "^6.16.0"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "tsx": "catalog:",
+    "typescript": "5.9.3"
+  }
+}

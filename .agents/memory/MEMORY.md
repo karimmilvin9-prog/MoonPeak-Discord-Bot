@@ -1,0 +1,1 @@
+- [Discord privileged intents](discord-privileged-intents.md) — keep Guild Members and Message Content intents opt-in so MoonPeak can start safely before portal configuration.

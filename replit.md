@@ -1,15 +1,19 @@
-# [Project name]
+# MoonPeak Discord Bot
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+MoonPeak is a branded Discord community bot for crypto education, scam reporting, moderation workflows, and recurring security reminders.
 
 ## Run & Operate
 
 - `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
+- `pnpm --filter @workspace/moonpeak-bot run dev` — run the Discord bot
 - `pnpm run typecheck` — full typecheck across all packages
 - `pnpm run build` — typecheck + build all packages
 - `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
 - `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
-- Required env: `DATABASE_URL` — Postgres connection string
+- Required env: `DATABASE_URL` — Postgres connection string for the shared API service
+- Required secret: `DISCORD_TOKEN`
+- Optional env: `DISCORD_CLIENT_ID`, `DISCORD_GUILD_ID`, `MOONPEAK_AI_MODEL`
+- Optional env: `MOONPEAK_ENABLE_PRIVILEGED_INTENTS=true` after enabling Guild Members Intent and Message Content Intent in Discord Developer Portal
 
 ## Stack
 
@@ -22,23 +26,41 @@ _Replace the heading above with the project's name, and this line with one sente
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `artifacts/moonpeak-bot/src/commands/` — slash-command definitions, registration, and handlers
+- `artifacts/moonpeak-bot/src/events/` — member-join welcome DM behavior
+- `artifacts/moonpeak-bot/src/embeds/` — MoonPeak-branded embed builders and button rows
+- `artifacts/moonpeak-bot/src/security/` — recurring security warning scheduler
+- `artifacts/moonpeak-bot/src/moderation/` — scam reports and staff-only actions
+- `artifacts/moonpeak-bot/src/ai/` — Replit AI Integrations OpenAI assistant boundary
+- `artifacts/moonpeak-bot/src/config/` — environment configuration and persisted admin settings
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- Slash commands fall back to the bot user ID for registration, so `DISCORD_CLIENT_ID` is optional; `DISCORD_GUILD_ID` can be added for faster guild-scoped command updates.
+- Privileged Discord intents are opt-in because Discord rejects login when they are not enabled in the Developer Portal.
+- Admin configuration persists warning/report channel IDs and the interval in `data/moonpeak-config.json`; `/config` is the source of truth after initial setup.
+- The AI assistant uses Replit AI Integrations and does not require a user-provided AI key.
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+The bot currently provides:
+
+- MoonPeak-branded `/help`, `/rules`, `/security`, `/beginner`, `/glossary`, `/faq`, `/support`, `/about`, `/links`, `/videos`, `/news`, `/pro`, `/server`, and `/roles` embeds.
+- `/report` with a private staff queue and authorized review, dismiss, and ban actions.
+- Admin-only `/embed` publishing and `/config` controls for security warnings and report routing.
+- A recurring rotating security warning scheduler with a ten-minute default interval.
+- Welcome DMs with security guidance when privileged intents are enabled.
+- Mention-based beginner-friendly crypto and Discord-security answers when privileged intents are enabled.
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+- MoonPeak should never promise profits or guaranteed trading success.
+- The repeated security message must remain clear: never answer random DMs; report suspicious messages to verified MoonPeak staff.
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- Enable Guild Members Intent and Message Content Intent in Discord Developer Portal before setting `MOONPEAK_ENABLE_PRIVILEGED_INTENTS=true`.
+- Configure `/config warning-channel`, `/config report-channel`, and `/config warning-interval` in Discord after inviting the bot.
 
 ## Pointers
 
