@@ -33,9 +33,12 @@ export const config: {
     10 * 60 * 1000,
   ),
   enablePrivilegedIntents: process.env["MOONPEAK_ENABLE_PRIVILEGED_INTENTS"] === "true",
-  aiModel: process.env["MOONPEAK_AI_MODEL"]?.trim() || "gpt-5.6-terra",
+  aiModel: process.env["MOONPEAK_AI_MODEL"]?.trim() ||
+    (process.env["AI_INTEGRATIONS_OPENAI_BASE_URL"]?.trim() ? "gpt-5.6-terra" : "gpt-4o-mini"),
   aiBaseUrl: process.env["AI_INTEGRATIONS_OPENAI_BASE_URL"]?.trim(),
-  aiApiKey: process.env["AI_INTEGRATIONS_OPENAI_API_KEY"]?.trim(),
+  aiApiKey:
+    process.env["AI_INTEGRATIONS_OPENAI_API_KEY"]?.trim() ||
+    process.env["OPENAI_API_KEY"]?.trim(),
 };
 
 export const hasAi = Boolean(config.aiBaseUrl && config.aiApiKey);

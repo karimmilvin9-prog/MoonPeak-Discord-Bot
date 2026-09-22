@@ -1,1 +1,2 @@
 - [Discord privileged intents](discord-privileged-intents.md) — keep Guild Members and Message Content intents opt-in so MoonPeak can start safely before portal configuration.
+- [AI provider fallback](ai-provider-fallback.md) — prefer Replit AI Integrations, then use the secure project OpenAI key when the built-in provider is unavailable.

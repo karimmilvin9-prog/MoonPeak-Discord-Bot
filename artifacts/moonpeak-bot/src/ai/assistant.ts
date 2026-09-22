@@ -13,10 +13,11 @@ const systemPrompt = [
 
 let client: OpenAI | undefined;
 if (hasAi) {
-  client = new OpenAI({
-    apiKey: config.aiApiKey,
-    baseURL: config.aiBaseUrl,
-  });
+  client = new OpenAI(
+    config.aiBaseUrl
+      ? { apiKey: config.aiApiKey, baseURL: config.aiBaseUrl }
+      : { apiKey: config.aiApiKey },
+  );
 }
 
 export const answerMention = async (question: string): Promise<string> => {

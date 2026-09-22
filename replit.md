@@ -12,6 +12,7 @@ MoonPeak is a branded Discord community bot for crypto education, scam reporting
 - `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
 - Required env: `DATABASE_URL` — Postgres connection string for the shared API service
 - Required secret: `DISCORD_TOKEN`
+- Optional secret: `OPENAI_API_KEY` when built-in Replit AI Integrations are unavailable
 - Optional env: `DISCORD_CLIENT_ID`, `DISCORD_GUILD_ID`, `MOONPEAK_AI_MODEL`
 - Optional env: `MOONPEAK_ENABLE_PRIVILEGED_INTENTS=true` after enabling Guild Members Intent and Message Content Intent in Discord Developer Portal
 
@@ -39,7 +40,7 @@ MoonPeak is a branded Discord community bot for crypto education, scam reporting
 - Slash commands fall back to the bot user ID for registration, so `DISCORD_CLIENT_ID` is optional; `DISCORD_GUILD_ID` can be added for faster guild-scoped command updates.
 - Privileged Discord intents are opt-in because Discord rejects login when they are not enabled in the Developer Portal.
 - Admin configuration persists warning/report channel IDs and the interval in `data/moonpeak-config.json`; `/config` is the source of truth after initial setup.
-- The AI assistant uses Replit AI Integrations and does not require a user-provided AI key.
+- The AI assistant prefers Replit AI Integrations and falls back to `OPENAI_API_KEY` when that connection is unavailable.
 
 ## Product
 
